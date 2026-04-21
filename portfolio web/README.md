@@ -6,5 +6,6 @@ Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://
 
 # 一鍵安裝所有相依套件
 npm install vue vue-router pinia bootstrap -D sass-embedded bootstrap-icons
+
 # 如果已有 package.json，直接執行這行即可
 npm install
