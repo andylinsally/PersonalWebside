@@ -96,7 +96,7 @@ const router = useRouter();
 const currentIndex = ref(0);
 let timer = null;
 
-// ⭐️ 核心修改 1：嚴格把關 1440px 才是桌機模式
+
 const isMobile = ref(window.innerWidth < 1200);
 const handleResize = () => {
   isMobile.value = window.innerWidth < 1200;
@@ -140,7 +140,7 @@ const handleTouchEnd = (e) => {
   resetTimer();
 };
 
-// ⭐️ 強制 Vite 抓取所有層級圖片
+
 const images = import.meta.glob('../../assets/images/**/*', { eager: true });
 
 const getImageUrl = (imageName) => {
@@ -156,7 +156,7 @@ const getStackStyle = (index) => {
   else if (diff < -total / 2) diff += total;
 
   if (isMobile.value) {
-    // 平板與手機 (1440px 以下)：左右排列
+    
     const angle = 6;
     const gapX = 80;
     const gapY = 4;
@@ -167,7 +167,7 @@ const getStackStyle = (index) => {
       opacity: Math.abs(diff) > 1 ? 0 : diff === 0 ? 1 : 0.4,
     };
   } else {
-    // 桌機 (1440px 以上)：傾斜堆疊
+    
     const angle = 6;
     const gapX = 4;
     const gapY = -75;
@@ -210,7 +210,7 @@ onUnmounted(() => {
   min-height: 100vh;
 }
 
-/* ⭐️ 核心修改 2：全面將 CSS 斷點對齊 1024px 與 1440px */
+
 .diagonal-stack {
   pointer-events: none;
   transform: translateY(-20vh);
@@ -234,7 +234,7 @@ onUnmounted(() => {
     top 0.5s ease;
 
   @media (min-width: map-get($grid-breakpoints, lg)) {
-    /* 1024 平板特調：卡片稍微變小一點，避免左右超出螢幕 */
+    
     width: 65vw;
   }
   @media (min-width: map-get($grid-breakpoints, xl)) {
@@ -252,7 +252,7 @@ onUnmounted(() => {
 
 /* --- 桌機文字區塊 --- */
 .info-overlay {
-  display: none !important; /* 預設隱藏 */
+  display: none !important; 
   top: 70%;
   left: 75%;
   transform: translateY(-50%);
@@ -316,7 +316,7 @@ onUnmounted(() => {
 
 /* --- 手機/平板文字區塊 --- */
 .mobile-info {
-  display: flex !important; /* 預設顯示 */
+  display: flex !important; 
   top: 43%;
   left: 12.5%;
   flex-direction: column;

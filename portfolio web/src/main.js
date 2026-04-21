@@ -3,7 +3,7 @@ import { createPinia } from "pinia";
 import App from "./App.vue";
 import router from "./router";
 
-// 引入你整合好的 SCSS
+
 import "./assets/scss/main.scss";
 
 import "bootstrap-icons/font/bootstrap-icons.css";

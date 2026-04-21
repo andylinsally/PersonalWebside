@@ -46,10 +46,10 @@ import HomeCarousel from "../components/Home/HomeCarousel.vue";
   z-index: 1;
 }
 
-/* --- ⭐️ 統一改為 1024px 與 1440px 斷點 --- */
+
 .title-section {
   pointer-events: none;
-  bottom: 15vh; /* 手機版：提很高避開卡片 */
+  bottom: 15vh; 
 
   @media (min-width: map-get($grid-breakpoints, lg)) {
     bottom: 10vh;
@@ -82,7 +82,7 @@ import HomeCarousel from "../components/Home/HomeCarousel.vue";
 /* 背景幾何裝飾 */
 .bg-shape {
   position: absolute;
-  background-color: rgba($bg-assets, 0.4); /* 使用你的變數並加上一點透明度 */
+  background-color: rgba($bg-assets, 0.4); 
   z-index: 0;
 }
 

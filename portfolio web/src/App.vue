@@ -29,10 +29,10 @@ import MobileNav from "./components/Layout/MobileNav.vue";
 
 <style lang="scss">
 .bg-light-soft {
-  background-color: #fcfcfc; // 微調背景色維持乾淨度
+  background-color: #fcfcfc;
 }
 
-// 確保桌機版 sidebar 能貼齊視窗高度
+
 .sidebar-wrapper {
   position: sticky;
   top: 0;

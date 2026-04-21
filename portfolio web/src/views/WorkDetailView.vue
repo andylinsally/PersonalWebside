@@ -149,7 +149,7 @@
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { useWorksStore } from "../stores/worksStore";
-import WorkCard from "../components/Works/WorkCard.vue"; // 引入卡片組件用於底部推薦
+import WorkCard from "../components/Works/WorkCard.vue"; 
 
 const route = useRoute();
 const store = useWorksStore();
@@ -165,12 +165,11 @@ const relatedWorks = computed(() => {
     .slice(0, 3);
 });
 
-// ⭐️ 強制 Vite 抓取 images 資料夾下「所有層級」的圖片
+
 const images = import.meta.glob("../assets/images/**/*", { eager: true });
 
 const getImageUrl = (imageName) => {
   const path = `../assets/images/${imageName}`;
-  // 回傳編譯後的正確路徑
   return images[path]?.default || "";
 };
 </script>

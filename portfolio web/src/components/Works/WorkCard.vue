@@ -36,7 +36,7 @@ const props = defineProps({
   },
 });
 
-// ⭐️ 強制 Vite 抓取所有層級圖片
+
 const images = import.meta.glob('../../assets/images/**/*', { eager: true });
 
 const getImageUrl = (imageName) => {
@@ -48,7 +48,7 @@ const getImageUrl = (imageName) => {
 <style lang="scss" scoped>
 .work-card {
   .img-wrapper {
-    aspect-ratio: 4 / 3; // 統一圖片比例，讓排版整齊
+    aspect-ratio: 4 / 3;
     border-radius: 4px;
   }
 
@@ -56,7 +56,7 @@ const getImageUrl = (imageName) => {
     transition: transform 0.5s ease;
   }
 
-  // 滑鼠懸浮時圖片微微放大，增加互動感
+ 
   &:hover {
     .work-img {
       transform: scale(1.05);

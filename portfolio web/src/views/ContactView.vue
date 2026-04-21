@@ -152,15 +152,15 @@ const formData = reactive({
   message: "",
 });
 
-// ⭐️ 新增一個 loading 狀態，用來控制按鈕
+
 const isSubmitting = ref(false);
 
 const submitForm = async () => {
-  // 1. 開始發送，將按鈕設為 loading 狀態
+ 
   isSubmitting.value = true;
 
   try {
-    // 2. 使用 fetch 將資料 POST 到 Formspree (⭐️ 記得把下方的 URL 換成你的專屬網址)
+    
     const response = await fetch("https://formspree.io/f/mdaylyae", {
       method: "POST",
       headers: {
@@ -170,7 +170,7 @@ const submitForm = async () => {
       body: JSON.stringify(formData),
     });
 
-    // 3. 判斷是否發送成功
+    
     if (response.ok) {
       alert("感謝您的來信！我會盡快回覆您。");
       
@@ -187,14 +187,13 @@ const submitForm = async () => {
     console.error("發送錯誤：", error);
     alert("抱歉，網路連線似乎發生了錯誤。");
   } finally {
-    // 4. 無論成功或失敗，最後都把 loading 狀態解除
+    
     isSubmitting.value = false;
   }
 };
 </script>
 
 <style lang="scss" scoped>
-/* 引入我們設定好的全域變數檔 */
 @import "../assets/scss/_variables.scss";
 
 .contact-container {
@@ -241,29 +240,27 @@ const submitForm = async () => {
 }
 
 .badge-required {
-  background-color: #ee6c65; /* 特殊語意色 (警告/必須)，保留獨立色碼 */
+  background-color: #ee6c65; 
   color: white;
 }
 
 .badge-optional {
-  background-color: $border-color; /* 替換為變數中的灰色 */
+  background-color: $border-color;
   color: white;
 }
 
 /* --- 輸入框無邊框極簡樣式 --- */
 .custom-input {
-  /* 利用 $bg-assets 變數做透明度轉換，產生極淡的淺藍灰色背景 */
   background-color: rgba($bg-assets, 0.3);
   border: 1px solid transparent;
   border-radius: 4px;
   padding: 0.8rem 1rem;
   transition: all 0.3s ease;
-  color: $body-color; /* 套用規範文字色 */
+  color: $body-color;
 
   &:focus {
     background-color: $body-bg;
     border-color: $bg-assets;
-    /* 運用 SCSS 的 rgba 函式來轉換變數顏色 */
     box-shadow: 0 0 0 4px rgba($bg-assets, 0.5);
     outline: none;
   }
@@ -271,7 +268,7 @@ const submitForm = async () => {
 
 /* --- 底部送出按鈕 --- */
 .btn-submit {
-  background-color: $primary; /* 參考圖的特殊青綠色，保留獨立色碼 */
+  background-color: $primary;
   color: white;
   transition: all 0.3s ease;
   border: none;
@@ -281,7 +278,7 @@ const submitForm = async () => {
     background-color: darken(
       $primary,
       10%
-    ); /* 利用 SCSS 原生函式加深 hover 顏色 */
+    );
     color: white;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba($primary, 0.3);

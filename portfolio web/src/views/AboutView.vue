@@ -160,12 +160,12 @@
   background-color: var(--bs-body-bg);
 }
 
-/* --- ⭐️ 新增：照片區塊樣式 --- */
+
 .img-wrapper {
   .bg-shape {
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.05); /* 淡淡的幾何裝飾塊 */
+    background-color: rgba(0, 0, 0, 0.05); 
     top: 20px;
     left: -20px;
     transition: transform 0.5s ease;

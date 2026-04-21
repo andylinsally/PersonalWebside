@@ -74,7 +74,7 @@ const isMenuOpen = ref(false);
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
-  // 防止背景滑動
+ 
   document.body.style.overflow = isMenuOpen.value ? "hidden" : "";
 };
 
@@ -116,35 +116,35 @@ const closeMenu = () => {
   letter-spacing: 0.2em;
 }
 
-/* --- ⭐️ 升級：選單項目與懸浮點點設計 --- */
+
 .nav-item {
-  position: relative; /* 讓點點可以絕對定位 */
+  position: relative; 
 }
 
 .nav-link {
-  color: #fff; /* 預設白色 */
+  color: #fff; 
   transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
   display: inline-block;
 
-  /* 當前路由啟動時的樣式 */
+  
   &.router-link-active {
     color: var(--bs-primary);
 
-    /* 懸浮點點排版 */
+    
     &::before {
       content: "●";
-      font-size: 12px; /* 手機版字比較大，點點也稍微放大 */
+      font-size: 12px; 
       position: absolute;
-      left: -24px; /* 把點點精準推到字體外側 */
+      left: -24px; 
       top: 50%;
       transform: translateY(-50%);
     }
   }
 
-  /* 滑鼠懸停/手指觸碰時的微互動 */
+  
   &:hover:not(.router-link-active) {
     color: rgba(255, 255, 255, 0.6);
-    transform: translateX(8px); /* 微微向右滑動 */
+    transform: translateX(8px);
   }
 }
 
@@ -156,7 +156,7 @@ const closeMenu = () => {
     opacity: 0.6;
   }
 }
-/* --------------------------------- */
+
 
 // 滿版選單淡入淡出動畫
 .fade-enter-active,
