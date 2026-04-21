@@ -1,0 +1,27 @@
+$grid-breakpoints: (
+  xs: 0,
+  sm: 360px,
+  md: 768px,  //平板直立
+  lg: 1024px, //平板橫向、筆電
+  xl: 1200px, //桌機
+  xxl: 1400px, //大型桌機
+);
+
+// === 你的自訂色票 ===
+$primary: #72a6d9;
+$bg-assets: #dfe6ed;
+$body-bg: #ffffff;
+$body-color: #4f4f4f;
+$border-color: #a6a7a6;
+$headings-color: #000000;
+
+// === 新增：行動版深色滿版選單配色 ===
+$overlay-bg: #222222;
+$overlay-text: #ffffff;
+
+// === 覆蓋 Bootstrap 的其他預設變數 ===
+$font-family-base: "Google Sans", "Noto Sans TC", sans-serif;
+// 啟用響應式字體 (RFS)，讓字體在手機端自動等比例縮小
+$enable-responsive-font-sizes: true;
+
+
