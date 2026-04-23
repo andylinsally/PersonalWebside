@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 
 export const useWorksStore = defineStore("works", {
   state: () => ({
-    categories: ["ALL", "UI/UX", "GRAPHIC"],
+    categories: ["ALL", "UI/UX", "GRAPHIC", "PRACTICE"],
     currentCategory: "ALL",
 
     worksList: [
@@ -163,6 +163,61 @@ export const useWorksStore = defineStore("works", {
             release: "2024.01",
             tag: "平面設計, 動畫設計, 網頁設計",
             url: "https://online.fliphtml5.com/JhihSyuan_Lin/afax/#p=1",
+          },
+        },
+      },
+      {
+        id: 4,
+        title: "NoteWeb",
+        subtitle: "Portfolio",
+        category: "PRACTICE",
+        tags: ["Vite+Vue3", "前端開發練習"],
+        description:
+          "Note筆記網站是我為了練習前端開發而創建的個人專案。這個網站允許使用者創建、編輯和刪除筆記，並且可以將筆記釘選或進行搜尋以便更好地組織。整個專案使用 Vite 作為構建工具，Vue 3 作為前端框架，並且利用 Pinia 進行狀態管理以及Bootstrap進行樣式設計。這個專案不僅幫助我熟悉了 Vue 3 的組件化開發，也讓我實際體驗了前端開發的流程和挑戰。",
+        image: "project/3_portfolio/portfolio.png",
+        link: "/works/NoteWeb",
+        slug: "NoteWeb",
+        details: {
+          websiteUrl: "https://andylinsally.github.io/Note_web/",
+          outline:
+            "面對快節奏的電商檔期與複雜的網卡方案，專案核心著重於降低使用者的理解門檻，並有效提升導購轉換率。藉由整合平面視覺、動態影像與網頁介面設計，建構出一致且具吸引力的品牌溝通語彙。",
+          designBlocks: [
+            {
+              layout: "1-col", // 一排一張 (適合滿版大圖)
+              images: ["project/3_portfolio/portfolio.png"],
+            },
+            {
+              layout: "2-col", // 一排兩張 (適合對比或細節)
+              images: [
+                "project/3_portfolio/02.png",
+                "project/3_portfolio/03.png", // 測試用，之後可換成實際的圖
+              ],
+            },
+            {
+              layout: "3-col", // 一排三張 (非常適合手機 APP 截圖)
+              images: [
+                "project/3_portfolio/04.png",
+                "project/3_portfolio/05.png",
+                "project/3_portfolio/06.png",
+              ],
+            },
+            {
+              layout: "3-col", // 一排三張 (非常適合手機 APP 截圖)
+              images: [
+                "project/3_portfolio/07.png",
+                "project/3_portfolio/08.png",
+                "project/3_portfolio/09.png",
+              ],
+            },
+          ],
+          data: {
+            client: "個人練習專案",
+            production: "Solo Project",
+            jobRole: "FrontEnd Developer",
+            category: "FrontEnd Practice",
+            release: "2024.01",
+            tag: "前端開發練習, Vue3, Vite",
+            url: "https://andylinsally.github.io/Note_web/",
           },
         },
       },

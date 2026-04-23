@@ -16,7 +16,7 @@
     >
       <h1 class="fw-bold mb-3 tracking-wide title-text display-4 display-lg-3">
         <br />
-        專案集
+        作品集
       </h1>
       <p class="text-secondary mb-0 tracking-widest subtitle-text fs-6">
         UI/UX & Graphic Design Portfolio<br />

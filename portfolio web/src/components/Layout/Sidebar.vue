@@ -19,7 +19,7 @@
           <router-link to="/about" class="nav-link">ABOUT</router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/works" class="nav-link">WORKS</router-link>
+          <router-link to="/works" class="nav-link">PORTFOLIO</router-link>
         </li>
         <li class="nav-item">
           <router-link to="/contact" class="nav-link">CONTACT</router-link>
