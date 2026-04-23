@@ -39,8 +39,16 @@ const props = defineProps({
 
 const images = import.meta.glob('../../assets/images/**/*', { eager: true });
 
-const getImageUrl = (imageName) => {
-  const path = `../../assets/images/${imageName}`;
+const getImageUrl = (imagePath) => {
+  if (!imagePath) return '';
+  
+  // ⭐️ 智慧判斷：如果是 Firebase 傳來的雲端網址，就直接回傳不處理！
+  if (imagePath.startsWith('http')) {
+    return imagePath;
+  }
+  
+  // 否則，按照原本的方式處理本機端圖片
+  const path = `../../assets/images/${imagePath}`;
   return images[path]?.default || '';
 };
 </script>

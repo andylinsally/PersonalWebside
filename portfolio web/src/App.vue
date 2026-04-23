@@ -23,15 +23,24 @@
 </template>
 
 <script setup>
+import { onMounted } from "vue"; // ⭐️ 1. 引入 Vue 的生命週期鉤子
 import Sidebar from "./components/Layout/Sidebar.vue";
 import MobileNav from "./components/Layout/MobileNav.vue";
+import { useWorksStore } from "./stores/worksStore"; // ⭐️ 2. 引入你寫好的 Store (請確認路徑是否正確)
+
+// ⭐️ 3. 啟用 store
+const store = useWorksStore();
+
+// ⭐️ 4. 告訴網頁：「當元件掛載完成 (打開網頁) 時，立刻去執行抓取資料的動作」
+onMounted(() => {
+  store.fetchWorksFromFirebase();
+});
 </script>
 
 <style lang="scss">
 .bg-light-soft {
   background-color: #fcfcfc;
 }
-
 
 .sidebar-wrapper {
   position: sticky;

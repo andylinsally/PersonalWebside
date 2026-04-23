@@ -6,83 +6,74 @@
     @touchmove="handleTouchMove"
     @touchend="handleTouchEnd"
   >
-    <div
-      class="diagonal-stack w-100 h-100 position-absolute d-flex align-items-center justify-content-center"
-    >
-      <div
-        v-for="(work, index) in store.worksList"
-        :key="work.id"
-        class="stack-item position-absolute"
-        :class="{ 'is-active': currentIndex === index }"
-        :style="getStackStyle(index)"
-        @click="handleCardClick(index)"
-      >
-        <img
-          :src="getImageUrl(work.image)"
-          :alt="work.title"
-          class="work-img object-fit-cover shadow-lg w-100 h-100 rounded-3"
-        />
+    <div v-if="store.worksList.length > 0" class="w-100 h-100 position-relative">
+      
+      <div class="diagonal-stack w-100 h-100 position-absolute d-flex align-items-center justify-content-center">
+        <div
+          v-for="(work, index) in store.worksList"
+          :key="work.id"
+          class="stack-item position-absolute"
+          :class="{ 'is-active': currentIndex === index }"
+          :style="getStackStyle(index)"
+          @click="handleCardClick(index)"
+        >
+          <img
+            :src="getImageUrl(work.image)"
+            :alt="work.title"
+            class="work-img object-fit-cover shadow-lg w-100 h-100 rounded-3"
+          />
+        </div>
       </div>
+
+      <div class="info-overlay position-absolute align-items-center pointer-events-none">
+        <transition name="extend-line" mode="out-in">
+          <div :key="'line-' + currentIndex" class="line-connector"></div>
+        </transition>
+        <transition name="text-reveal" mode="out-in">
+          <div :key="'text-' + currentIndex" class="info-content text-start pe-auto">
+            <router-link :to="store.worksList[currentIndex].link" class="text-decoration-none">
+              <h2 class="work-title fw-bold text-dark mb-2 tracking-widest">
+                {{ store.worksList[currentIndex].title }}
+              </h2>
+              <p class="work-tags text-muted mb-0 tracking-widest">
+                {{ store.worksList[currentIndex].category }}
+                <span v-if="store.worksList[currentIndex].tags.length">
+                  , {{ store.worksList[currentIndex].tags.join(" , ") }}
+                </span>
+              </p>
+            </router-link>
+          </div>
+        </transition>
+      </div>
+
+      <div class="mobile-info position-absolute z-3 pe-auto">
+        <transition name="extend-line-vertical" mode="out-in">
+          <div :key="'line-mobile-' + currentIndex" class="line-connector-vertical"></div>
+        </transition>
+        <transition name="text-reveal-mobile" mode="out-in">
+          <div :key="'text-mobile-' + currentIndex" class="info-content-mobile text-start">
+            <router-link :to="store.worksList[currentIndex].link" class="text-decoration-none">
+              <h2 class="work-title fw-bold text-dark mb-1 tracking-widest">
+                {{ store.worksList[currentIndex].title }}
+              </h2>
+              <p class="work-tags text-muted mb-0 tracking-widest">
+                {{ store.worksList[currentIndex].category }}
+                <span v-if="store.worksList[currentIndex].tags.length">
+                  , {{ store.worksList[currentIndex].tags.join(" , ") }}
+                </span>
+              </p>
+            </router-link>
+          </div>
+        </transition>
+      </div>
+
     </div>
 
-    <div
-      class="info-overlay position-absolute align-items-center pointer-events-none"
-    >
-      <transition name="extend-line" mode="out-in">
-        <div :key="'line-' + currentIndex" class="line-connector"></div>
-      </transition>
-      <transition name="text-reveal" mode="out-in">
-        <div
-          :key="'text-' + currentIndex"
-          class="info-content text-start pe-auto"
-        >
-          <router-link
-            :to="store.worksList[currentIndex].link"
-            class="text-decoration-none"
-          >
-            <h2 class="work-title fw-bold text-dark mb-2 tracking-widest">
-              {{ store.worksList[currentIndex].title }}
-            </h2>
-            <p class="work-tags text-muted mb-0 tracking-widest">
-              {{ store.worksList[currentIndex].category }}
-              <span v-if="store.worksList[currentIndex].tags.length"
-                >, {{ store.worksList[currentIndex].tags.join(" , ") }}</span
-              >
-            </p>
-          </router-link>
-        </div>
-      </transition>
+    <div v-else class="w-100 h-100 d-flex flex-column align-items-center justify-content-center text-muted">
+      <div class="spinner-border mb-3" role="status" style="color: #72a6d9;"></div>
+      <p class="tracking-widest" style="letter-spacing: 0.15em;">載入精選作品中...</p>
     </div>
 
-    <div class="mobile-info position-absolute z-3 pe-auto">
-      <transition name="extend-line-vertical" mode="out-in">
-        <div
-          :key="'line-mobile-' + currentIndex"
-          class="line-connector-vertical"
-        ></div>
-      </transition>
-      <transition name="text-reveal-mobile" mode="out-in">
-        <div
-          :key="'text-mobile-' + currentIndex"
-          class="info-content-mobile text-start"
-        >
-          <router-link
-            :to="store.worksList[currentIndex].link"
-            class="text-decoration-none"
-          >
-            <h2 class="work-title fw-bold text-dark mb-1 tracking-widest">
-              {{ store.worksList[currentIndex].title }}
-            </h2>
-            <p class="work-tags text-muted mb-0 tracking-widest">
-              {{ store.worksList[currentIndex].category }}
-              <span v-if="store.worksList[currentIndex].tags.length"
-                >, {{ store.worksList[currentIndex].tags.join(" , ") }}</span
-              >
-            </p>
-          </router-link>
-        </div>
-      </transition>
-    </div>
   </div>
 </template>
 
@@ -143,8 +134,16 @@ const handleTouchEnd = (e) => {
 
 const images = import.meta.glob('../../assets/images/**/*', { eager: true });
 
-const getImageUrl = (imageName) => {
-  const path = `../../assets/images/${imageName}`;
+const getImageUrl = (imagePath) => {
+  if (!imagePath) return '';
+  
+  // ⭐️ 智慧判斷：如果是 Firebase 傳來的雲端網址，就直接回傳不處理！
+  if (imagePath.startsWith('http')) {
+    return imagePath;
+  }
+  
+  // 否則，按照原本的方式處理本機端圖片
+  const path = `../../assets/images/${imagePath}`;
   return images[path]?.default || '';
 };
 
@@ -190,6 +189,9 @@ const handleCardClick = (index) => {
 };
 
 const nextSlide = () => {
+  // ⭐️ 加上這行安全判斷：如果還沒有資料，就不要執行輪播切換
+  if (!store.worksList || store.worksList.length === 0) return;
+  
   currentIndex.value = (currentIndex.value + 1) % store.worksList.length;
 };
 
