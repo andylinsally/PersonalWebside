@@ -124,6 +124,12 @@
 
               <div class="d-flex gap-2">
                 <button
+                  @click="handleDuplicate(work)"
+                  class="btn btn-sm btn-outline-info px-3 fw-bold"
+                >
+                  複製
+                </button>
+                <button
                   @click="handleEdit(work)"
                   class="btn btn-sm btn-outline-primary px-3 fw-bold"
                 >
@@ -224,7 +230,6 @@
                 @change="handleCoverChange"
                 class="form-control"
                 accept="image/*"
-                required
               />
               <div v-if="coverPreview" class="mt-3">
                 <img
@@ -569,6 +574,51 @@ const cancelEdit = () => {
 };
 
 // ==========================================
+// ====== ⭐️ 複製邏輯 (Duplicate) ======
+// ==========================================
+const handleDuplicate = (work) => {
+  // 1. 確保是「新增模式」(這非常重要，這樣送出才會是新增而非覆蓋)
+  editingId.value = null;
+
+  // 2. 為了體驗更好，讓畫面自動捲動回表單頂部
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  // 3. 回填資料，並在標題加上後綴方便辨識
+  form.title = work.title + " (複製)";
+  form.subtitle = work.subtitle || "";
+  form.category = work.category;
+  form.outline = work.details?.outline || "";
+  form.websiteUrl = work.details?.websiteUrl || "";
+  tagsInput.value = (work.tags || []).join(", ");
+
+  if (work.details?.data) {
+    form.data.client = work.details.data.client || "";
+    form.data.production = work.details.data.production || "";
+    form.data.jobRole = work.details.data.jobRole || "";
+    form.data.release = work.details.data.release || "";
+  }
+
+  // 4. 回填封面圖預覽網址 (不會有實體的 file)
+  coverFile.value = null;
+  coverPreview.value = work.image;
+
+  // 5. 回填 DesignBlocks 預覽網址
+  if (work.details?.designBlocks) {
+    designBlocks.value = work.details.designBlocks.map((block) => ({
+      layout: block.layout,
+      files: [],
+      previews: block.images || [],
+    }));
+  } else {
+    designBlocks.value = [];
+  }
+
+  alert(
+    "已複製內容至下方表單！\n您可以修改文字或替換圖片後，按下「發布完整作品」。",
+  );
+};
+
+// ==========================================
 // ====== 新增表單狀態與邏輯 (維持不變) ======
 // ==========================================
 const isUploading = ref(false);
@@ -619,9 +669,9 @@ const handleBlockImagesChange = (e, blockIndex) => {
 };
 
 const submitWork = async () => {
-  // 如果是新增模式才強制檢查圖片，編輯模式如果沒選新圖，代表保留舊圖
-  if (!editingId.value && !coverFile.value)
+  if (!editingId.value && !coverFile.value && !coverPreview.value) {
     return alert("請務必上傳封面圖片！");
+  }
 
   isUploading.value = true;
 
