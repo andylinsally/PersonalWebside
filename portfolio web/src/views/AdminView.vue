@@ -103,10 +103,11 @@
                 </div>
                 <button
                   @click="toggleFeature(work)"
-                  class="btn btn-sm border-0 fs-5"
+                  class="btn btn-sm border-0 fs-5 star-btn"
+                  :class="work.isFeatured ? 'is-featured' : 'text-muted'"
                   :title="work.isFeatured ? '取消首頁顯示' : '設定為首頁顯示'"
                 >
-                  {{ work.isFeatured ? "⭐" : "☆" }}
+                  {{ work.isFeatured ? "★" : "☆" }}
                 </button>
                 <img
                   v-if="work.image"
@@ -710,6 +711,23 @@ const submitWork = async () => {
 
 <style lang="scss" scoped>
 @import "../assets/scss/_variables.scss";
+
+/* --- 星星按鈕專屬樣式 --- */
+.star-btn {
+  transition: all 0.2s ease;
+  padding: 0 0.5rem;
+
+  /* 滑鼠移過去時有一點點放大效果，增加互動感 */
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+
+/* 當作品被精選時，套用你的 primary 顏色！ */
+.is-featured {
+  color: $primary !important;
+  text-shadow: 0 0 8px rgba($primary, 0.4);
+}
 
 .tracking-widest {
   letter-spacing: 0.15em;
