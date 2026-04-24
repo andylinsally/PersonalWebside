@@ -80,7 +80,7 @@
 
           <div v-else class="list-group shadow-sm">
             <div
-              v-for="work in firebaseWorks"
+              v-for="(work, index) in firebaseWorks"
               :key="work.id"
               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center p-3"
             >
@@ -417,7 +417,7 @@ const saveOrder = async () => {
   try {
     // 呼叫 API，把排序好的陣列傳過去
     await worksApi.updateWorksOrder(firebaseWorks.value);
-    alert("✅ 排序儲存成功！前台已同步更新。");
+    alert("排序儲存成功！前台已同步更新。");
   } catch (error) {
     console.error("儲存排序失敗:", error);
     alert("儲存排序失敗，請查看 Console。");
