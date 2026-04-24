@@ -28,6 +28,17 @@ export const useWorksStore = defineStore("works", {
           (work) => String(work.id) === String(id) || work.slug === String(id),
         );
     },
+    featuredWorks: (state) => {
+      const featured = state.worksList.filter(
+        (work) => work.isFeatured === true,
+      );
+
+      // 防呆機制：如果一開始都沒有亮星星的作品，就先顯示前 3 個作品當墊背，以免首頁空白
+      if (featured.length === 0 && state.worksList.length > 0) {
+        return state.worksList.slice(0, 3);
+      }
+      return featured;
+    },
   },
 
   actions: {

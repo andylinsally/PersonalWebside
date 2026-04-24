@@ -112,7 +112,7 @@ export const worksApi = {
       throw error;
     }
   },
-  
+
   // ⭐️ 7. 批次更新作品排序
   async updateWorksOrder(orderedWorks) {
     try {
@@ -126,6 +126,18 @@ export const worksApi = {
       await Promise.all(updatePromises);
     } catch (error) {
       console.error("更新排序失敗:", error);
+      throw error;
+    }
+  },
+  
+  // ⭐️ 8. 切換作品的「首頁精選」狀態
+  async toggleFeatured(id, currentStatus) {
+    try {
+      const docRef = doc(db, COLLECTION_NAME, id);
+      // 將目前的狀態反轉 (true 變成 false，false 變成 true)
+      await updateDoc(docRef, { isFeatured: !currentStatus });
+    } catch (error) {
+      console.error("切換精選狀態失敗:", error);
       throw error;
     }
   },

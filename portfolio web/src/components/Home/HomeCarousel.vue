@@ -6,11 +6,11 @@
     @touchmove="handleTouchMove"
     @touchend="handleTouchEnd"
   >
-    <div v-if="store.worksList.length > 0" class="w-100 h-100 position-relative">
+    <div v-if="store.featuredWorks.length > 0" class="w-100 h-100 position-relative">
       
       <div class="diagonal-stack w-100 h-100 position-absolute d-flex align-items-center justify-content-center">
         <div
-          v-for="(work, index) in store.worksList"
+          v-for="(work, index) in store.featuredWorks"
           :key="work.id"
           class="stack-item position-absolute"
           :class="{ 'is-active': currentIndex === index }"
@@ -31,14 +31,14 @@
         </transition>
         <transition name="text-reveal" mode="out-in">
           <div :key="'text-' + currentIndex" class="info-content text-start pe-auto">
-            <router-link :to="store.worksList[currentIndex].link" class="text-decoration-none">
+            <router-link :to="store.featuredWorks[currentIndex].link" class="text-decoration-none">
               <h2 class="work-title fw-bold text-dark mb-2 tracking-widest">
-                {{ store.worksList[currentIndex].title }}
+                {{ store.featuredWorks[currentIndex].title }}
               </h2>
               <p class="work-tags text-muted mb-0 tracking-widest">
-                {{ store.worksList[currentIndex].category }}
-                <span v-if="store.worksList[currentIndex].tags.length">
-                  , {{ store.worksList[currentIndex].tags.join(" , ") }}
+                {{ store.featuredWorks[currentIndex].category }}
+                <span v-if="store.featuredWorks[currentIndex].tags.length">
+                  , {{ store.featuredWorks[currentIndex].tags.join(" , ") }}
                 </span>
               </p>
             </router-link>
@@ -52,14 +52,14 @@
         </transition>
         <transition name="text-reveal-mobile" mode="out-in">
           <div :key="'text-mobile-' + currentIndex" class="info-content-mobile text-start">
-            <router-link :to="store.worksList[currentIndex].link" class="text-decoration-none">
+            <router-link :to="store.featuredWorks[currentIndex].link" class="text-decoration-none">
               <h2 class="work-title fw-bold text-dark mb-1 tracking-widest">
-                {{ store.worksList[currentIndex].title }}
+                {{ store.featuredWorks[currentIndex].title }}
               </h2>
               <p class="work-tags text-muted mb-0 tracking-widest">
-                {{ store.worksList[currentIndex].category }}
-                <span v-if="store.worksList[currentIndex].tags.length">
-                  , {{ store.worksList[currentIndex].tags.join(" , ") }}
+                {{ store.featuredWorks[currentIndex].category }}
+                <span v-if="store.featuredWorks[currentIndex].tags.length">
+                  , {{ store.featuredWorks[currentIndex].tags.join(" , ") }}
                 </span>
               </p>
             </router-link>
@@ -121,7 +121,7 @@ const handleTouchEnd = (e) => {
   const diffY = endY - startY.value;
 
   if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-    const total = store.worksList.length;
+    const total = store.featuredWorks.length;
     if (diffX < 0) {
       currentIndex.value = (currentIndex.value + 1) % total;
     } else {
@@ -148,7 +148,7 @@ const getImageUrl = (imagePath) => {
 };
 
 const getStackStyle = (index) => {
-  const total = store.worksList.length;
+  const total = store.featuredWorks.length;
   let diff = index - currentIndex.value;
 
   if (diff > total / 2) diff -= total;
@@ -181,7 +181,7 @@ const getStackStyle = (index) => {
 
 const handleCardClick = (index) => {
   if (currentIndex.value === index) {
-    router.push(store.worksList[index].link);
+    router.push(store.featuredWorks[index].link);
   } else {
     currentIndex.value = index;
     resetTimer();
@@ -190,9 +190,9 @@ const handleCardClick = (index) => {
 
 const nextSlide = () => {
   // ⭐️ 加上這行安全判斷：如果還沒有資料，就不要執行輪播切換
-  if (!store.worksList || store.worksList.length === 0) return;
+  if (!store.featuredWorks || store.featuredWorks.length === 0) return;
   
-  currentIndex.value = (currentIndex.value + 1) % store.worksList.length;
+  currentIndex.value = (currentIndex.value + 1) % store.featuredWorks.length;
 };
 
 const resetTimer = () => {

@@ -101,6 +101,13 @@
                     ▼
                   </button>
                 </div>
+                <button
+                  @click="toggleFeature(work)"
+                  class="btn btn-sm border-0 fs-5"
+                  :title="work.isFeatured ? '取消首頁顯示' : '設定為首頁顯示'"
+                >
+                  {{ work.isFeatured ? "⭐" : "☆" }}
+                </button>
                 <img
                   v-if="work.image"
                   :src="work.image"
@@ -391,6 +398,24 @@ const isDeleting = ref(null); // 紀錄目前正在刪除的 id
 const editingId = ref(null); // 新增：紀錄目前正在編輯的作品 ID (null 代表新增模式)
 
 // ==========================================
+// ====== ⭐️ 首頁精選邏輯 (Featured) ======
+// ==========================================
+const toggleFeature = async (work) => {
+  // 為了讓使用者體驗更好，我們先在畫面上立即切換狀態 (樂觀 UI 更新)
+  const originalStatus = work.isFeatured || false;
+  work.isFeatured = !originalStatus;
+
+  try {
+    // 呼叫 API 真的去改 Firebase
+    await worksApi.toggleFeatured(work.id, originalStatus);
+  } catch (error) {
+    // 如果失敗了，再把畫面上的狀態改回來
+    work.isFeatured = originalStatus;
+    alert("切換失敗，請稍後再試。");
+  }
+};
+
+// ==========================================
 // ====== ⭐️ 排序邏輯 (Sort Order) ======
 // ==========================================
 const isSavingOrder = ref(false);
@@ -658,6 +683,7 @@ const submitWork = async () => {
       },
       // 更新時間 (可選)
       updatedAt: new Date().toISOString(),
+      isFeatured: editingId.value ? undefined : false,
     };
 
     // --- E. API 分流：判斷要新增還是更新！ ---
