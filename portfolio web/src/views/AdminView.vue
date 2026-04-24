@@ -62,7 +62,7 @@
                 class="btn btn-success btn-sm fw-bold shadow-sm"
                 :disabled="isSavingOrder"
               >
-                {{ isSavingOrder ? "💾 儲存中..." : "💾 儲存目前排序" }}
+                {{ isSavingOrder ? "儲存中..." : "儲存目前排序" }}
               </button>
             </div>
           </div>
