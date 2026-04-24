@@ -14,12 +14,23 @@ export const useWorksStore = defineStore("works", {
 
   getters: {
     filteredWorks: (state) => {
-      if (state.currentCategory === "ALL") {
-        return state.worksList;
-      }
-      return state.worksList.filter(
-        (work) => work.category === state.currentCategory,
-      );
+      // 1. 先根據分類過濾出我們要的作品陣列 (記得用 [...陣列] 淺拷貝，避免改到原始資料)
+      let result =
+        state.currentCategory === "ALL"
+          ? [...state.worksList]
+          : state.worksList.filter(
+              (work) => work.category === state.currentCategory,
+            );
+
+      // 2. 執行「多重條件排序」魔法
+      return result.sort((a, b) => {
+        // 條件一：精選狀態 (true 排在 false 前面)
+        if (a.isFeatured && !b.isFeatured) return -1; // a 有星星、b 沒有，a 往前排
+        if (!a.isFeatured && b.isFeatured) return 1; // a 沒有星星、b 有，b 往前排
+
+        // 條件二：如果星星狀態一樣(都是 true 或都是 false)，就看後台的 sortOrder 數字
+        return (a.sortOrder ?? 999) - (b.sortOrder ?? 999);
+      });
     },
     getWorkById: (state) => {
       // ⭐️ 確保轉成字串比較，因為 Firebase 的 ID 是一串字串
