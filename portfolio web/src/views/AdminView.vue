@@ -462,6 +462,7 @@ const loadFirebaseWorks = async () => {
   isLoadingList.value = true;
   try {
     const data = await worksApi.fetchWorks();
+    data.sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999));
     firebaseWorks.value = data;
   } catch (error) {
     console.error("載入作品列表失敗:", error);
