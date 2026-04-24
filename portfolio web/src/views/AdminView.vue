@@ -726,7 +726,6 @@ const submitWork = async () => {
 /* 當作品被精選時，套用你的 primary 顏色！ */
 .is-featured {
   color: $primary !important;
-  text-shadow: 0 0 8px rgba($primary, 0.4);
 }
 
 .tracking-widest {
