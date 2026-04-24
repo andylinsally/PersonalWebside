@@ -52,7 +52,20 @@
         </div>
 
         <div class="mb-5">
-          <h3 class="fw-bold mb-4">已發布作品 (Firebase)</h3>
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold mb-4">已發布作品 (Firebase)</h3>
+
+            <div class="d-flex gap-2">
+              <button
+                v-if="firebaseWorks.length > 1"
+                @click="saveOrder"
+                class="btn btn-success btn-sm fw-bold shadow-sm"
+                :disabled="isSavingOrder"
+              >
+                {{ isSavingOrder ? "💾 儲存中..." : "💾 儲存目前排序" }}
+              </button>
+            </div>
+          </div>
 
           <div v-if="isLoadingList" class="text-center text-muted py-4">
             載入中...
@@ -330,9 +343,7 @@
               :disabled="isUploading"
             >
               <span v-if="isUploading">努力上傳與處理中，請耐心等候...</span>
-              <span v-else>{{
-                editingId ? "儲存修改" : "發布完整作品"
-              }}</span>
+              <span v-else>{{ editingId ? "儲存修改" : "發布完整作品" }}</span>
             </button>
           </form>
         </div>
@@ -362,6 +373,42 @@ const firebaseWorks = ref([]);
 const isLoadingList = ref(true);
 const isDeleting = ref(null); // 紀錄目前正在刪除的 id
 const editingId = ref(null); // 新增：紀錄目前正在編輯的作品 ID (null 代表新增模式)
+
+// ==========================================
+// ====== ⭐️ 排序邏輯 (Sort Order) ======
+// ==========================================
+const isSavingOrder = ref(false);
+
+// 往上移動：把目前這筆跟上一筆互換位置
+const moveUp = (index) => {
+  if (index === 0) return;
+  const temp = firebaseWorks.value[index];
+  firebaseWorks.value[index] = firebaseWorks.value[index - 1];
+  firebaseWorks.value[index - 1] = temp;
+};
+
+// 往下移動：把目前這筆跟下一筆互換位置
+const moveDown = (index) => {
+  if (index === firebaseWorks.value.length - 1) return;
+  const temp = firebaseWorks.value[index];
+  firebaseWorks.value[index] = firebaseWorks.value[index + 1];
+  firebaseWorks.value[index + 1] = temp;
+};
+
+// 儲存排序到 Firebase
+const saveOrder = async () => {
+  isSavingOrder.value = true;
+  try {
+    // 呼叫 API，把排序好的陣列傳過去
+    await worksApi.updateWorksOrder(firebaseWorks.value);
+    alert('✅ 排序儲存成功！前台已同步更新。');
+  } catch (error) {
+    console.error("儲存排序失敗:", error);
+    alert('儲存排序失敗，請查看 Console。');
+  } finally {
+    isSavingOrder.value = false;
+  }
+};
 
 // 載入 Firebase 作品列表
 const loadFirebaseWorks = async () => {

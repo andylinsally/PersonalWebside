@@ -60,7 +60,10 @@ export const useWorksStore = defineStore("works", {
             designBlocks: [],
             data: {},
           },
+          sortOrder: work.sortOrder ?? 999,
         }));
+
+        newWorks.sort((a, b) => a.sortOrder - b.sortOrder);
 
         this.worksList = [...newWorks];
         this.isFetched = true;

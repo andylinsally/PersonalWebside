@@ -112,4 +112,21 @@ export const worksApi = {
       throw error;
     }
   },
+  
+  // ⭐️ 7. 批次更新作品排序
+  async updateWorksOrder(orderedWorks) {
+    try {
+      // 利用 Promise.all 同時發送多筆更新請求
+      const updatePromises = orderedWorks.map((work, index) => {
+        const docRef = doc(db, COLLECTION_NAME, work.id);
+        // 將該作品在陣列中的位置 (index) 存為 sortOrder 欄位
+        return updateDoc(docRef, { sortOrder: index });
+      });
+
+      await Promise.all(updatePromises);
+    } catch (error) {
+      console.error("更新排序失敗:", error);
+      throw error;
+    }
+  },
 };
