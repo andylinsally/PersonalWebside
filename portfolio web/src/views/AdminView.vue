@@ -85,6 +85,22 @@
               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center p-3"
             >
               <div class="d-flex align-items-center gap-3">
+                <div class="d-flex flex-column gap-1 me-2">
+                  <button
+                    @click="moveUp(index)"
+                    :disabled="index === 0"
+                    class="btn btn-sm btn-light py-0 border text-muted"
+                  >
+                    ▲
+                  </button>
+                  <button
+                    @click="moveDown(index)"
+                    :disabled="index === firebaseWorks.length - 1"
+                    class="btn btn-sm btn-light py-0 border text-muted"
+                  >
+                    ▼
+                  </button>
+                </div>
                 <img
                   v-if="work.image"
                   :src="work.image"
@@ -401,10 +417,10 @@ const saveOrder = async () => {
   try {
     // 呼叫 API，把排序好的陣列傳過去
     await worksApi.updateWorksOrder(firebaseWorks.value);
-    alert('✅ 排序儲存成功！前台已同步更新。');
+    alert("✅ 排序儲存成功！前台已同步更新。");
   } catch (error) {
     console.error("儲存排序失敗:", error);
-    alert('儲存排序失敗，請查看 Console。');
+    alert("儲存排序失敗，請查看 Console。");
   } finally {
     isSavingOrder.value = false;
   }
