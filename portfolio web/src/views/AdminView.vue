@@ -684,7 +684,6 @@ const submitWork = async () => {
       },
       // 更新時間 (可選)
       updatedAt: new Date().toISOString(),
-      isFeatured: editingId.value ? undefined : false,
     };
 
     // --- E. API 分流：判斷要新增還是更新！ ---
@@ -695,6 +694,7 @@ const submitWork = async () => {
     } else {
       // 新增模式 (加上建立時間)
       finalWorkData.createdAt = new Date().toISOString();
+      finalWorkData.isFeatured = false;
       await worksApi.addWork(finalWorkData);
       alert("新作品發布成功！");
     }
