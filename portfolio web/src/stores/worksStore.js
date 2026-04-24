@@ -72,6 +72,7 @@ export const useWorksStore = defineStore("works", {
             data: {},
           },
           sortOrder: work.sortOrder ?? 999,
+          isFeatured: work.isFeatured || false,
         }));
 
         newWorks.sort((a, b) => a.sortOrder - b.sortOrder);
